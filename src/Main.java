@@ -79,7 +79,7 @@ public class Main
 							else {
 								RollService rollService = RollService.getInstance();
 								
-								String message = rollService.roll( roll);
+								String message = formatRoll(rollService.roll( roll));
 								
 								SendMessage sendMessage = new SendMessage(update.message().chat().id(),message).parseMode( ParseMode.Markdown );
 								
@@ -101,6 +101,30 @@ public class Main
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Format the roll into a message
+	 * @param roll
+	 * @return
+	 * @author bruno
+	 * @since 12 de mai de 2018
+	 */
+	private static String formatRoll(Roll roll) {
+		StringBuilder sb = new StringBuilder();
+		sb.append( "Total: `" );
+		sb.append(roll.getTotal());
+		sb.append("`\nRolled: ");
+		int i=0;
+		for(Integer die : roll.getRolls()) {
+			i++;
+			sb.append(die);
+			if(i<roll.getDices()) {
+				sb.append( ", " );
+			}
+		}
+		
+		return sb.toString();
 	}
 
 	/**
